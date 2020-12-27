@@ -4,6 +4,7 @@ from watchdog.events import FileSystemEventHandler
 from git import Repo
 import os
 import time
+import asyncio
 
 class OnMyWatch:
 
@@ -28,23 +29,34 @@ class OnMyWatch:
 class Handler(FileSystemEventHandler):
     @staticmethod
     def on_created(event):
-        dowork(event)
+        asyncio.run(MoveFiles(event))
+
 
     @staticmethod
     def on_moved(event):
-        dowork(event)
+        asyncio.run(MoveFiles(event))
 
 
-def dowork(event):
+async def MoveFiles(event):
     file_name = event.src_path.split("/")[-1]
 
     new_path = "/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/images/"
     newFile = datetime.datetime.today().strftime('%H%d%m%y') + "-" + file_name
 
     os.rename(event.src_path, new_path + newFile)
+    print("Renaming and Moving Successful")
 
+    await asyncio.sleep(1)
 
+    asyncio.run(updateGit(newFile))
 
+async def updateGit(file):
+    repo = Repo("/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test")
+    origin = repo.remote(name='origin')
+    origin.pull()
+    repo.index.add([file])
+    repo.index.commit("Update From Script")
+    origin.push()
 
 
 watch = OnMyWatch()
