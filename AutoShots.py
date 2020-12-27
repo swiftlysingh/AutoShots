@@ -6,6 +6,8 @@ import os
 import time
 import asyncio
 
+
+
 class OnMyWatch:
 
     watchDirectory = "./Sample"
@@ -27,9 +29,12 @@ class OnMyWatch:
         self.observer.join()
 
 class Handler(FileSystemEventHandler):
+
     @staticmethod
     def on_created(event):
-        asyncio.run(MoveFiles(event))
+
+        file = loop.run_until_complete(MoveFiles(event))
+        loop.run_until_complete(updateGit(file))
 
 
     @staticmethod
@@ -46,18 +51,20 @@ async def MoveFiles(event):
     os.rename(event.src_path, new_path + newFile)
     print("Renaming and Moving Successful")
 
-    await asyncio.sleep(1)
-
-    asyncio.run(updateGit(newFile))
+    await asyncio.sleep(5)
+    return newFile
+    # asyncio.run(updateGit(newFile))
 
 async def updateGit(file):
-    repo = Repo("/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test")
+    file = "images/" + file
+    repo = Repo("/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/")
     origin = repo.remote(name='origin')
     origin.pull()
     repo.index.add([file])
     repo.index.commit("Update From Script")
     origin.push()
-
+    print("Pushed latest")
 
 watch = OnMyWatch()
+loop = asyncio.get_event_loop()
 watch.run()
