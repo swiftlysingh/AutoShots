@@ -28,12 +28,24 @@ class OnMyWatch:
 class Handler(FileSystemEventHandler):
     @staticmethod
     def on_created(event):
-        file_name = event.src_path.split("/")[-1]
+        dowork(event)
 
-        new_path = "/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/images/"
-        newFile = datetime.datetime.today().strftime('%H%d%m%y')+"-"+file_name
+    @staticmethod
+    def on_moved(event):
+        dowork(event)
 
-        os.rename(event.src_path,new_path + newFile)
+
+def dowork(event):
+    file_name = event.src_path.split("/")[-1]
+
+    new_path = "/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/images/"
+    newFile = datetime.datetime.today().strftime('%H%d%m%y') + "-" + file_name
+
+    os.rename(event.src_path, new_path + newFile)
+
+
+
+
 
 watch = OnMyWatch()
 watch.run()
