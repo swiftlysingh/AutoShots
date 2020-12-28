@@ -51,9 +51,8 @@ async def MoveFiles(event):
     os.rename(event.src_path, new_path + newFile)
     print("Renaming and Moving Successful")
 
-    await asyncio.sleep(5)
+    await asyncio.sleep(3)
     return newFile
-    # asyncio.run(updateGit(newFile))
 
 async def updateGit(file):
     file = "images/" + file
