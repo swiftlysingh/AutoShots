@@ -7,8 +7,11 @@ import os
 import time
 import logging
 
+targetPath = "/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/"
+sourcePath = "./Sample"
+
 class AutoShots:
-    watchDirectory = "/media/pictures/Edited/Web"
+    watchDirectory = sourcePath
 
     # This will initialize the logger and oberver object
     def __init__(self):
@@ -38,7 +41,11 @@ class AutoShots:
     def MoveFiles(self,event):
         oldFile = event.src_path.split("/")[-1]
 
-        newFilePath = "/media/pictures/Edited/Shots/images/"
+        if oldFile.split(".")[-1] == "DS_Store":
+            print("Gone")
+            return
+
+        newFilePath = targetPath
         newFile = datetime.datetime.today().strftime('%S%H%d%m%y') + "-" + oldFile
 
         os.rename(event.src_path, newFilePath + newFile)
@@ -48,8 +55,9 @@ class AutoShots:
 
     # This will add and update the git repo with a commit named "Update from script"
     def updateGit(self,file):
-        file = "/media/pictures/Edited/Shots/images/" + file
-        repo = Repo("/media/pictures/Edited/Shots/")
+
+        file = targetPath + file
+        repo = Repo(targetPath)
         origin = repo.remote(name='origin')
         origin.pull()
         repo.index.add([file])
