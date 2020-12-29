@@ -29,7 +29,7 @@ class AutoShots:
         oldFile = event.src_path.split("/")[-1]
 
         newFilePath = "/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/images/"
-        newFile = datetime.datetime.today().strftime('%H%d%m%y') + "-" + oldFile
+        newFile = datetime.datetime.today().strftime('%S%H%d%m%y') + "-" + oldFile
 
         os.rename(event.src_path, newFilePath + newFile)
         print("Renaming and Moving Successful")
