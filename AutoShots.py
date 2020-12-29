@@ -9,6 +9,7 @@ import logging
 class AutoShots:
     watchDirectory = "./Sample"
 
+    # This will initialize the logger and oberver object
     def __init__(self):
         self.observer = Observer()
         self.logger = logging.getLogger("AutoShots")
@@ -32,6 +33,7 @@ class AutoShots:
 
         self.observer.join()
 
+    # This will rename and move the file to its desired location
     def MoveFiles(self,event):
         oldFile = event.src_path.split("/")[-1]
 
@@ -43,6 +45,7 @@ class AutoShots:
 
         self.updateGit(newFile)
 
+    # This will add and update the git repo with a commit named "Update from script"
     def updateGit(self,file):
         file = "images/" + file
         repo = Repo("/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/")
@@ -63,6 +66,7 @@ class Handler(FileSystemEventHandler):
     @staticmethod
     def on_moved(event):
         AutoShots().MoveFiles(event)
+
 
 
 watch = AutoShots()
