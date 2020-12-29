@@ -4,7 +4,6 @@ from watchdog.events import FileSystemEventHandler
 from git import Repo
 import os
 import time
-import asyncio
 
 
 
@@ -32,17 +31,15 @@ class Handler(FileSystemEventHandler):
 
     @staticmethod
     def on_created(event):
-
-        file = loop.run_until_complete(MoveFiles(event))
-        loop.run_until_complete(updateGit(file))
+        MoveFiles(event)
 
 
     @staticmethod
     def on_moved(event):
-        asyncio.run(MoveFiles(event))
+        MoveFiles(event)
 
 
-async def MoveFiles(event):
+def MoveFiles(event):
     file_name = event.src_path.split("/")[-1]
 
     new_path = "/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/images/"
@@ -51,10 +48,10 @@ async def MoveFiles(event):
     os.rename(event.src_path, new_path + newFile)
     print("Renaming and Moving Successful")
 
-    await asyncio.sleep(3)
-    return newFile
 
-async def updateGit(file):
+    updateGit(newFile)
+
+def updateGit(file):
     file = "images/" + file
     repo = Repo("/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/")
     origin = repo.remote(name='origin')
@@ -65,5 +62,4 @@ async def updateGit(file):
     print("Pushed latest")
 
 watch = OnMyWatch()
-loop = asyncio.get_event_loop()
 watch.run()
