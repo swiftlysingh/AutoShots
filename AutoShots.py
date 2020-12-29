@@ -7,8 +7,9 @@ import os
 import time
 import logging
 
-targetPath = "/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/"
-sourcePath = "./Sample"
+targetPath = "/media/pictures/Edited/Shots/images/"
+targetRepoPath = "/media/pictures/Edited/Shots/"
+sourcePath = "/media/pictures/Edited/Web"
 
 class AutoShots:
     watchDirectory = sourcePath
@@ -42,13 +43,12 @@ class AutoShots:
         oldFile = event.src_path.split("/")[-1]
 
         if oldFile.split(".")[-1] == "DS_Store":
-            print("Gone")
+            self.logger.debug("Gone")
             return
-
-        newFilePath = targetPath
+        
         newFile = datetime.datetime.today().strftime('%S%H%d%m%y') + "-" + oldFile
 
-        os.rename(event.src_path, newFilePath + newFile)
+        os.rename(event.src_path, targetPath + newFile)
         self.logger.debug("Renaming and Moving Successful")
 
         self.updateGit(newFile)
@@ -57,7 +57,7 @@ class AutoShots:
     def updateGit(self,file):
 
         file = targetPath + file
-        repo = Repo(targetPath)
+        repo = Repo(targetRepoPath)
         origin = repo.remote(name='origin')
         origin.pull()
         repo.index.add([file])
