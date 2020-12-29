@@ -45,7 +45,7 @@ class AutoShots:
         if oldFile.split(".")[-1] == "DS_Store":
             self.logger.debug("Gone")
             return
-        time.sleep(5)
+        time.sleep(20)
         newFile = datetime.datetime.today().strftime('%S%H%d%m%y') + "-" + oldFile
 
         os.rename(event.src_path, targetPath + newFile)
