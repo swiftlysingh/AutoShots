@@ -4,13 +4,20 @@ from watchdog.events import FileSystemEventHandler
 from git import Repo
 import os
 import time
-
+import logging
 
 class AutoShots:
     watchDirectory = "./Sample"
 
     def __init__(self):
         self.observer = Observer()
+        self.logger = logging.getLogger("AutoShots")
+        self.logger.setLevel(logging.DEBUG)
+        handler = logging.FileHandler('AutoShots.log')
+        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        handler.setFormatter(formatter)
+        self.logger.addHandler(handler)
+        print("Initialized Successfully")
 
     def run(self):
         event_handler = Handler()
@@ -25,18 +32,18 @@ class AutoShots:
 
         self.observer.join()
 
-    def MoveFiles(event):
+    def MoveFiles(self,event):
         oldFile = event.src_path.split("/")[-1]
 
         newFilePath = "/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/images/"
         newFile = datetime.datetime.today().strftime('%S%H%d%m%y') + "-" + oldFile
 
         os.rename(event.src_path, newFilePath + newFile)
-        print("Renaming and Moving Successful")
+        self.logger.debug("Renaming and Moving Successful")
 
-        AutoShots.updateGit(newFile)
+        self.updateGit(newFile)
 
-    def updateGit(file):
+    def updateGit(self,file):
         file = "images/" + file
         repo = Repo("/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/")
         origin = repo.remote(name='origin')
@@ -44,18 +51,18 @@ class AutoShots:
         repo.index.add([file])
         repo.index.commit("Update From Script")
         origin.push()
-        print("Pushed latest")
+        self.logger.debug("Pushed latest")
 
 
 class Handler(FileSystemEventHandler):
 
     @staticmethod
     def on_created(event):
-        AutoShots.MoveFiles(event)
+        AutoShots().MoveFiles(event)
 
     @staticmethod
     def on_moved(event):
-        AutoShots.MoveFiles(event)
+        AutoShots().MoveFiles(event)
 
 
 watch = AutoShots()
