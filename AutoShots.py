@@ -37,7 +37,7 @@ class AutoShots:
     def MoveFiles(self,event):
         oldFile = event.src_path.split("/")[-1]
 
-        newFilePath = "/media/pictures/Edited/Shots/images"
+        newFilePath = "/media/pictures/Edited/Shots/images/"
         newFile = datetime.datetime.today().strftime('%S%H%d%m%y') + "-" + oldFile
 
         os.rename(event.src_path, newFilePath + newFile)
@@ -47,7 +47,7 @@ class AutoShots:
 
     # This will add and update the git repo with a commit named "Update from script"
     def updateGit(self,file):
-        file = "images/" + file
+        file = "/media/pictures/Edited/Shots/images/" + file
         repo = Repo("/media/pictures/Edited/Shots/")
         origin = repo.remote(name='origin')
         origin.pull()
