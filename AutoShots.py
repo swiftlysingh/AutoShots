@@ -7,7 +7,7 @@ import time
 import logging
 
 class AutoShots:
-    watchDirectory = "./Sample"
+    watchDirectory = "/media/pictures/Edited/Web"
 
     # This will initialize the logger and oberver object
     def __init__(self):
@@ -37,7 +37,7 @@ class AutoShots:
     def MoveFiles(self,event):
         oldFile = event.src_path.split("/")[-1]
 
-        newFilePath = "/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/images/"
+        newFilePath = "/media/pictures/Edited/Shots/images"
         newFile = datetime.datetime.today().strftime('%S%H%d%m%y') + "-" + oldFile
 
         os.rename(event.src_path, newFilePath + newFile)
@@ -48,7 +48,7 @@ class AutoShots:
     # This will add and update the git repo with a commit named "Update from script"
     def updateGit(self,file):
         file = "images/" + file
-        repo = Repo("/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/")
+        repo = Repo("/media/pictures/Edited/Shots/")
         origin = repo.remote(name='origin')
         origin.pull()
         repo.index.add([file])
