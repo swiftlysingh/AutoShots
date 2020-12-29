@@ -40,12 +40,12 @@ class Handler(FileSystemEventHandler):
 
 
 def MoveFiles(event):
-    file_name = event.src_path.split("/")[-1]
+    oldFile = event.src_path.split("/")[-1]
 
-    new_path = "/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/images/"
-    newFile = datetime.datetime.today().strftime('%H%d%m%y') + "-" + file_name
+    newFilePath = "/Users/pushpinderpalsingh/Documents/Learning/Other Projects/Python/test/images/"
+    newFile = datetime.datetime.today().strftime('%H%d%m%y') + "-" + oldFile
 
-    os.rename(event.src_path, new_path + newFile)
+    os.rename(event.src_path, newFilePath + newFile)
     print("Renaming and Moving Successful")
 
 
