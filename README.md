@@ -13,4 +13,4 @@ I created this script to automate the deployment of my exported photographs dire
 
 ## License
 
-This project is licensed under the MIT License - see [LICENSE.md](./LICENSE.md) for details
+This project is licensed under the MIT License - see [LICENSE.md](./LICENSE) for details
