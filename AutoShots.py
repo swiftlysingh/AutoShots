@@ -59,10 +59,11 @@ class AutoShots:
         file = targetPath + file
         repo = Repo(targetRepoPath)
         origin = repo.remote(name='origin')
-        origin.pull()
         repo.index.add([file])
         repo.index.commit("Update From Script")
         origin.push()
+        time.sleep(110)
+        origin.pull()
         self.logger.debug("Pushed latest")
 
 
