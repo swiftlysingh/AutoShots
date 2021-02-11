@@ -7,8 +7,8 @@ import os
 import time
 import logging
 
-targetPath = "~/Shots/images/"
-targetRepoPath = "~/Shots/"
+targetPath = "/home/pp/Shots/images/"
+targetRepoPath = "/home/pp/Shots/"
 sourcePath = "/media/pictures/Edited/Web"
 
 class AutoShots:
