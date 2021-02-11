@@ -8,7 +8,7 @@ import time
 import logging
 
 targetPath = "/media/pictures/Edited/Shots/images/"
-targetRepoPath = "/media/pictures/Edited/Shots/"
+targetRepoPath = "~/Shots/"
 sourcePath = "/media/pictures/Edited/Web"
 
 class AutoShots:
