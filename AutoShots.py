@@ -63,7 +63,7 @@ class AutoShots:
         repo.index.commit("Update From Script")
         origin.push()
         time.sleep(110)
-        origin.pull()
+        origin.pull(force=True)
         self.logger.debug("Pushed latest")
 
 
