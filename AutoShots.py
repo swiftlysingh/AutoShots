@@ -6,6 +6,7 @@ from git import Repo
 import os
 import time
 import logging
+import shutil
 
 targetPath = "/home/pp/Shots/images/"
 targetRepoPath = "/home/pp/Shots/"
@@ -48,7 +49,7 @@ class AutoShots:
         time.sleep(20)
         newFile = datetime.datetime.today().strftime('%S%H%d%m%y') + "-" + oldFile
 
-        os.rename(event.src_path, targetPath + newFile)
+        shutil.move(event.src_path, targetPath + newFile)
         self.logger.debug("Renaming and Moving Successful")
 
         self.updateGit(newFile)
