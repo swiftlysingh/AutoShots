@@ -64,7 +64,7 @@ class AutoShots:
         repo.index.commit("Update From Script")
         origin.push()
         time.sleep(110)
-        repo.index.remove([file],working_tree = True)
+        repo.index.remove([file],working_tree = True,force=True)
         origin.pull(force=True)
         self.logger.debug("Pushed latest")
 
