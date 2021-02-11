@@ -7,7 +7,7 @@ import os
 import time
 import logging
 
-targetPath = "/media/pictures/Edited/Shots/images/"
+targetPath = "~/Shots/images/"
 targetRepoPath = "~/Shots/"
 sourcePath = "/media/pictures/Edited/Web"
 
