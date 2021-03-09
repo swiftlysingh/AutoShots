@@ -10,7 +10,7 @@ import shutil
 
 targetPath = "/home/pp/Shots/images/"
 targetRepoPath = "/home/pp/Shots/"
-sourcePath = "/media/pictures/Edited/Web"
+sourcePath = "/media/pictures/Edited/public"
 
 class AutoShots:
     watchDirectory = sourcePath
@@ -49,7 +49,7 @@ class AutoShots:
         time.sleep(20)
         newFile = datetime.datetime.today().strftime('%S%H%d%m%y') + "-" + oldFile
 
-        shutil.move(event.src_path, targetPath + newFile)
+        shutil.copy(event.src_path, targetPath + newFile)
         self.logger.debug("Renaming and Moving Successful")
 
         self.updateGit(newFile)
