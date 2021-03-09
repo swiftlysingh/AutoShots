@@ -77,6 +77,9 @@ class AutoShots:
     def updateInstagram(self,newFilePath):
 
         InstagramAPI = InstagramAPI(instagramUser,instagramPassword)
+        InstagramAPI.login()
+
+        InstagramAPI.uploadPhoto(newFilePath)
 
 
 class Handler(FileSystemEventHandler):
