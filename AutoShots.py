@@ -3,6 +3,7 @@ import datetime
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from git import Repo
+from InstagramApi import InstagramAPI
 import os
 import time
 import logging
@@ -11,6 +12,10 @@ import shutil
 targetPath = "/home/pp/Shots/images/"
 targetRepoPath = "/home/pp/Shots/"
 sourcePath = "/media/pictures/Edited/public"
+
+credentials = open("creds","r").read().split(",")[:2]
+instagramUser = credentials[0]
+instagramPassword = credentials[1]
 
 class AutoShots:
     watchDirectory = sourcePath
@@ -52,21 +57,26 @@ class AutoShots:
         shutil.copy(event.src_path, targetPath + newFile)
         self.logger.debug("Renaming and Moving Successful")
 
-        self.updateGit(newFile)
+        filePath = targetPath + newFile
+
+        self.updateGit(filePath)
 
     # This will add and update the git repo with a commit named "Update from script"
-    def updateGit(self,file):
+    def updateGit(self, newFilePath):
 
-        file = targetPath + file
         repo = Repo(targetRepoPath)
         origin = repo.remote(name='origin')
-        repo.index.add([file])
+        repo.index.add([newFilePath])
         repo.index.commit("Update From Script")
         origin.push()
         time.sleep(110)
-        repo.index.remove([file],working_tree = True,force=True)
+        repo.index.remove([newFilePath], working_tree = True, force=True)
         origin.pull(force=True)
         self.logger.debug("Pushed latest")
+
+    def updateInstagram(self,newFilePath):
+
+        InstagramAPI = InstagramAPI(instagramUser,instagramPassword)
 
 
 class Handler(FileSystemEventHandler):
