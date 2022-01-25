@@ -1,6 +1,6 @@
 ![AutShots](https://img.shields.io/badge/AutoShots-Shots-black?style=for-the-badge)
 # AutoShots
-
+### This is no longer required as [Shots](https://github.com/swiftlysingh/Shots) will automatically pull data from Instagram using Zapier.
 I created this script to automate the deployment of my exported photographs directly to my [website](http://shots.pushpinderpalsingh.com/).
 
 ## Usage
